@@ -30,7 +30,7 @@ class TeamViewSet(viewsets.ModelViewSet):
 
 
 class EmployeeViewSet(viewsets.ModelViewSet):
-    """CRUD completo anagrafica dipendenti."""
+    #CRUD completo anagrafica dipendenti.
     queryset = Employee.objects.select_related("team").all()
     serializer_class = EmployeeSerializer
 
@@ -47,7 +47,7 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["get"])
     def celebrating_today(self, request):
-        """Comodità: chi festeggia oggi (o in ?date=YYYY-MM-DD)."""
+        #chi festeggia oggi (o in ?date=YYYY-MM-DD).
         target = request.query_params.get("date")
         target_date = date_cls.fromisoformat(target) if target else None
         from django.utils import timezone
@@ -59,6 +59,7 @@ class EmployeeViewSet(viewsets.ModelViewSet):
 
 
 class AbsenceViewSet(viewsets.ModelViewSet):
+    # CRUD completo per gestire le assenze 
     queryset = Absence.objects.select_related("employee").all()
     serializer_class = AbsenceSerializer
 
@@ -66,14 +67,16 @@ class AbsenceViewSet(viewsets.ModelViewSet):
 class NewsletterLogViewSet(
     mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet
 ):
-    """Storico invii: sola lettura (i log si creano solo via servizio)."""
+    #Storico invii: sola lettura (i log si creano solo via servizio).
+    
     queryset = NewsletterLog.objects.select_related("team").all()
     serializer_class = NewsletterLogSerializer
 
 
 class TriggerNewsletterView(APIView):
-    """Trigger manuale dell'invio. POST opzionale con {"date": "YYYY-MM-DD"}."""
-
+   
+#Trigger manuale dell'invio. POST opzionale con {"date": "YYYY-MM-DD"} per specificare la data target (default: oggi).
+# Restituisce un summary di cosa è successo (quanti email sono state inviate, ecc.) per comodità di debug e test.
     def post(self, request):
         serializer = TriggerSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -83,7 +86,9 @@ class TriggerNewsletterView(APIView):
 
 
 class EmailSettingsView(APIView):
-    """Configurazione del servizio (singleton): GET per leggere, PUT per aggiornare."""
+    
+    #Configurazione del servizio (singleton): GET per leggere, PUT per aggiornare. 
+    
 
     def get(self, request):
         config = EmailSettings.load()

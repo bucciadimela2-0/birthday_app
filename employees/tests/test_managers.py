@@ -1,4 +1,4 @@
-# employees/tests/test_managers.py
+
 from datetime import date
 
 from django.test import TestCase
@@ -88,6 +88,6 @@ class CelebratingOnTests(TestCase):
 
     def test_non_leap_mar01_with_feb28_rule_excludes_29(self):
         # Con la regola FEB_28, il 1 Marzo non deve includere chi è nato il 29 Febbraio
-        
+
         qs = Employee.objects.active().celebrating(date(2025, 3, 1), "FEB_28")
         self.assertEqual(self._names(qs), [])

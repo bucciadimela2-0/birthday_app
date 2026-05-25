@@ -90,5 +90,5 @@ class EmailSettingsSerializer(serializers.ModelSerializer):
 
 
 class TriggerSerializer(serializers.Serializer):
-    """Input opzionale per il trigger manuale: una data per simulare un giorno."""
+    # Serializer per il trigger manuale dell'invio, con data opzionale.
     date = serializers.DateField(required=False)

@@ -1,4 +1,4 @@
-# employees/services.py
+
 from django.core.mail import send_mail
 from django.conf import settings as django_settings
 from django.utils import timezone
